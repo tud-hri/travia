@@ -1,0 +1,16 @@
+cffi==1.14.2
+cryptography==3.1
+numpy==1.19.2
+pandas==1.1.2
+pycparser==2.20
+pykalman==0.9.5
+pyproj==2.6.1.post1
+PyQt5==5.15.1
+PyQt5-sip==12.8.1
+PyQt5-stubs==5.14.2.2
+pyqtgraph==0.11.0
+python-dateutil==2.8.1
+pytz==2020.1
+scipy==1.5.2
+six==1.15.0
+opencv-python==4.5.1.48
