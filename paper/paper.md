@@ -1,6 +1,6 @@
 --- 
 title: 'TraViA: a Traffic data Visualization and Annotation tool in Python'
-tags:
+tags: 
   - naturalistic traffic data
   - visualization
   - annotation
@@ -8,17 +8,16 @@ tags:
   - NGSim
   - pNEUMA
   - Python 
-authors:
-  - name: O. Siebinga^[corresponding author]
+authors: 
+  - name: O. Siebinga
     orcid: 0000-0002-5614-1262 
     affiliation: 1 
-affiliations:
- - name: Human-Robot Interaction group, Department of Cognitive Robotics, Faculty 3mE, Delft University of Technology, Mekelweg 2, 2628 CD Delft, the
-   Netherlands
+affiliations: 
+ - name: Human-Robot Interaction group, Department of Cognitive Robotics, Faculty 3mE, Delft University of Technology, Mekelweg 2, 2628 CD Delft, theNetherlands
    index: 1 
 date: 24 June 2021
-bibliography: paper/paper.bib
----
+bibliography: paper.bib
+--- 
 
 # Summary
 
