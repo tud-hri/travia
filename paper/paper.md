@@ -39,11 +39,11 @@ project [@Krajewski2018] recorded all traffic on 6 different high-way locations,
 using 10 drones for 5 days in the pNEUMA project [@Barmpounakis2020], and American highway traffic was recorded using fixed base cameras in the NGSIM
 project [@NGSIM2016]. Combined, these datasets span different countries, types of vehicles and environments, a combination valuable for researchers with
 an interest in driver behavior modelling, traffic modelling or autonomous vehicle development. Example usages of these datasets are validating human behavior
- models (e.g. [@Talebpour2015a; @Treiber2008]) or testing autonomous vehicle controllers (e.g. [@Schwarting2019`]). 
+ models (e.g. @Talebpour2015a; @Treiber2008) or testing autonomous vehicle controllers (e.g. @Schwarting2019). 
 
 Currently it is difficult to leverage the powerful combination of multiple datasets because all datasets come in different formats, and it is often
 difficult to get a good and real-time visualization of the data. Some visualization tools exist (one is provided with the highD data another example for
-NGSIM data can be found in [@Sazara2017]) but they are specifically made for only one of these datasets and are very basic. Besides difficulties with
+NGSIM data can be found in @Sazara2017) but they are specifically made for only one of these datasets and are very basic. Besides difficulties with
 visualization, finding and annotating situations of interest in these massive datasets is a time-consuming task and keeping track of the annotations for the
 different datasets requires some bookkeeping skills.
 
