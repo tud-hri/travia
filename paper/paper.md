@@ -21,6 +21,7 @@ affiliations:
     index: 1 
 date: 24 June 2021
 bibliography: paper.bib
+---
 
 # Summary
 
@@ -75,12 +76,13 @@ functionality to automatically detect and annotate specific scenarios (e.g. lane
 annotation, and a function to plot a heatmap overlay for use in autonomous vehicle reward function development.
 
 # Usage of TraViA in Science and Education
-Currently, TraVia is being used for model validation of an inverse reinforcement learning based driver model by the authors. A publication on this validation 
+Currently, TraVia is being used for model validation of an inverse reinforcement learning based driver model by the author. A publication on this validation 
 is currently being prepared for submission. Besides that, TraViA is used for educational purposes, to let students work with big naturalistic datasets, while 
 providing them with an accessible, GUI-based starting point.
 
 # Acknowledgements
 
-This work was funded by Nissan Motor Co., Ltd.
+I thank Nissan Motor Co. Ltd. for funding this work and I also thank my supervisors Prof. Dr. D.A. Abbink and
+ Dr. A. Zgonnikov for their general help and advise.
 
 # References
