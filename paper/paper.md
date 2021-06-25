@@ -9,7 +9,7 @@ tags:
   - pNEUMA
   - Python 
 authors:
-  - name: O. Siebinga^[]
+  - name: O. Siebinga^[corresponding author]
     orcid: 0000-0002-5614-1262 
     affiliation: 1 
 affiliations:
