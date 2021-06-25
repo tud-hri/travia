@@ -35,15 +35,15 @@ recognition to generate bounding boxes for all vehicles. The result is a dataset
 used for many scientific porposus, e.g. to study traffic flow, model human behavior, or design autonomous vehicle controllers.
 
 Because the required ingredients are easily accessed all over the world, multiple of such datasets were published in recent years. In Germany, the highD
-project `[@Krajewski2018]` recorded all traffic on 6 different high-way locations, in Athens, Greece, all traffic in the city's business district was recorded
-using 10 drones for 5 days in the pNEUMA project `[@Barmpounakis2020]`, and American highway traffic was recorded using fixed base cameras in the NGSIM
-project `[@NGSIM2016]`. Combined, these datasets span different countries, types of vehicles and environments, a combination valuable for researchers with
+project [@Krajewski2018] recorded all traffic on 6 different high-way locations, in Athens, Greece, all traffic in the city's business district was recorded
+using 10 drones for 5 days in the pNEUMA project [@Barmpounakis2020], and American highway traffic was recorded using fixed base cameras in the NGSIM
+project [@NGSIM2016]. Combined, these datasets span different countries, types of vehicles and environments, a combination valuable for researchers with
 an interest in driver behavior modelling, traffic modelling or autonomous vehicle development. Example usages of these datasets are validating human behavior
- models (e.g. `[@Talebpour2015a; @Treiber2008]`) or testing autonomous vehicle controllers (e.g. `[@Schwarting2019`]). 
+ models (e.g. [@Talebpour2015a; @Treiber2008]) or testing autonomous vehicle controllers (e.g. [@Schwarting2019`]). 
 
 Currently it is difficult to leverage the powerful combination of multiple datasets because all datasets come in different formats, and it is often
 difficult to get a good and real-time visualization of the data. Some visualization tools exist (one is provided with the highD data another example for
-NGSIM data can be found here `[@Sazara2017]`) but they are specifically made for only one of these datasets and are very basic. Besides difficulties with
+NGSIM data can be found in [@Sazara2017]) but they are specifically made for only one of these datasets and are very basic. Besides difficulties with
 visualization, finding and annotating situations of interest in these massive datasets is a time-consuming task and keeping track of the annotations for the
 different datasets requires some bookkeeping skills.
 
