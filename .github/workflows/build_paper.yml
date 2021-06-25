@@ -29,4 +29,4 @@ jobs:
           # Target journal, must be either "joss" or "jose"
           journal: joss # optional, default is joss
           # Path to the main paper Markdown file, relative to the project's root directory.
-          paper-path: paper/paper.md # optional, default is paper.md
+          paper-path: ./paper/paper.md # optional, default is paper.md
