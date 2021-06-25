@@ -13,5 +13,6 @@
 *.aux
 *.png
 !screenshot.png
+!UML_class_diagram.png
 *.zip
 *.mat
