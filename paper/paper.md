@@ -65,7 +65,7 @@ of the screen shows all annotations for this dataset on a timeline, selecting an
 Annotations are saved as python objects making it easy to perform operations on them and compare different datasets based on their annotations.
 
 ![A screenshot of the TraViA software visualizing a frame of the highD
-dataset.\label{fig:screenshot}](paper/images/screenshot.png)
+dataset.\label{fig:screenshot}](images/screenshot.png)
 
 TraViA was designed for use as a stand-alone program, it uses abstract classes as a basis for all dataset specific objects to enable easy implementation of 
 new datasets. It was specifically created to serve as a tools for generic visualisation and annotation such that it can be used by researchers from different 
