@@ -16,10 +16,8 @@ affiliations:
  - name: Human-Robot Interaction group, Department of Cognitive Robotics, Faculty 3mE, Delft University of Technology, Mekelweg 2, 2628 CD Delft, the
    Netherlands
    index: 1 
-
 date: 24 June 2021
 bibliography: paper.bib
-
 ---
 
 # Summary
