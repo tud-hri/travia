@@ -17,7 +17,7 @@ affiliations:
    Netherlands
    index: 1 
 date: 24 June 2021
-bibliography: paper.bib
+bibliography: paper/paper.bib
 ---
 
 # Summary
