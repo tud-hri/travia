@@ -116,7 +116,7 @@ for more information.
 ![A conceptual UML class diagram showing the main classes in TraViA.
 The design with base classes and child classes for specific data sources makes it easy to add data from other sources. The separate dataset and visualization
 master objects allow for maintaining the source format in low-level storage while translating to a generic high-level implementation in the visualisation
-master.](.\images\UML_class_diagram.png)
+master.](./paper/images/UML_class_diagram.png)
 
 There are three main objects in TraViA used in for visualizing the data, a conceptual UML class diagram can be found in the figure above. The highest level 
 object is the Graphical User Interface (GUI). This inherits from the Qt QMainWindow object and handles all user interaction. The state of the GUI is 
