@@ -59,7 +59,7 @@ in \autoref{fig:screenshot}. This screenshot shows the capabilities of TraViA in
 * Advanced information display based on raw data for every vehicle in every dataset by leveraging generic vehicle objects
 * Dynamic visualization of the traffic scene with possibilities to zoom, pan, and rotate for an optimal view
 * Exporting the visualization to a video or single image
-* An interactive timeline that shows dataset annotations, which are saved as python object for easy manipulation 
+* An interactive timeline that shows dataset annotations, which are saved as python objects for easy manipulation 
 
 ![A screenshot of the TraViA software visualizing a frame of the highD
 dataset. The main features of TraViA are highlighted in this image. \label{fig:screenshot}](images/screenshot.png)
