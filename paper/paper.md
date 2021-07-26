@@ -9,7 +9,7 @@ tags:
   - pNEUMA
   - Python 
 authors: 
-  - name: O. Siebinga
+  - name: Olger Siebinga
     orcid: 0000-0002-5614-1262 
     affiliation: 1 
 affiliations: 
@@ -80,7 +80,7 @@ datasets by providing them with an accessible, GUI-based starting point.
 
 # Acknowledgements
 
-I thank Nissan Motor Co. Ltd. for funding this work and I also thank my supervisors Prof. Dr. Ir. D.A. Abbink and
- Dr. A. Zgonnikov for their valuable help and advice.
+I thank Nissan Motor Co. Ltd. for funding this work and I also thank my supervisors David Abbink and
+ Arkady Zgonnikov for their valuable help and advice. Finally, I thank Joris Giltay for his help with testing the instructions in the readme file. 
 
 # References
