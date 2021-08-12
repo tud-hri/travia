@@ -80,7 +80,7 @@ datasets by providing them with an accessible, GUI-based starting point.
 
 # Acknowledgements
 
-I thank Nissan Motor Co. Ltd. for funding this work and I also thank my supervisors David Abbink and
+I thank Nissan Motor Co. Ltd. for funding this work, and I also thank my supervisors David Abbink and
  Arkady Zgonnikov for their valuable help and advice. Finally, I thank Joris Giltay for his help with testing the instructions in the readme file. 
 
 # References
