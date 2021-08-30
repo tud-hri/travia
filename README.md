@@ -28,13 +28,12 @@ the terminal from the travia folder). That's all!
 To use TraViA, you'll need some traffic data, this data is not included in the repository. Follow the steps below to get started and test if TraViA is
 functioning properly.
 
-## Getting started, visualize data in 4 steps
+## Getting started, visualize data in 3 steps
 
-To get started, you only need to execute the next 4 steps.
+To get started, you only need to execute the next 3 steps.
 
 1. acquire data
 2. extract in the correct folder
-3. alter `visualize.py` (run file)
 4. run
 
 ### Acquire data
@@ -55,22 +54,13 @@ to `travia/data/NGSim`. This should create a new folder, `travia/data/NGSim/US-1
 `aerial-ortho-photos.zip` and `vehicle-trajectory-data.zip` to this folder. This will create more sub-folders, a representation of the correct end-result can be
 found in the `README.txt` file located in `travia/data/NGSim`, please verify that your folder structure is correct.
 
-### Alter `visualize.py` (run file)
-
-The script to start TraViA is a file called `visualize.py` and it can be found in the main project folder. This file is where you indicate which dataset you
-want to load. Open the file now and look for the code below `if __name__ == '__main__':`. Uncomment the part needed to load an NGSim dataset, and comment the
-other parts. As you can see, each dataset is identified with a DatasetID enum object. The NGSim and PNeuma dataset are split into parts based on recording
-location and time, the HighD data is split up into indexed sub-sets. The enum objects correspond to the divisions made in the data source.
-
-For our example, we need to change this dataset_id to a dataset ID corresponding to a dataset from the `NGSIM-US101`-location, so change it to
-`NGSimDatasetID.US101_0805_0820`. Here, `US101` refers to the location of the recording and `0805_0820` to the time of the recording (between 08:05 and 08:20
-AM).
-
 ### Run
 
-Now you're ready to run visualize.py. This will load the data from the *.csv file and convert it to a dataset object. Loading a new NGSim dataset for the first
-time will take a while since the data will be smoothed first. This is done to calculate headings for all vehicles because these are not included in the
-dataset. For more information, check out the section on "Particularities with the data". This smoothing is also needed for PNeuma datasets.
+Now you're ready to run `visualize.py`, this is the main run script in TraViA. A dialog will show asking you to select which dataset you want to load, 
+please select the NGSim dataset that you just downloaded. After this, the data will be loaded from the *.csv file and converted into a dataset object. 
+Loading a new NGSim dataset for the first time will take a while since the data will be smoothed first. This is done to calculate headings for all vehicles 
+because these are not included in the dataset. For more information, check out the section on "Particularities with the data". This smoothing is also needed 
+for PNeuma datasets.
 
 Once done, the TraViA user interface should be displayed. A screenshot of how it should look can be found below. This screenshot shows a portion of the
 HighD dataset, so don't worry if the traffic looks different. To verify TraViA is working correctly, a video is included with the
@@ -198,6 +188,25 @@ a security risk. To minimize this risk, Travia encrypts the pickle files using a
 This ensures that you will only open files that were created on your computer (or with access to your key). However, it also means that you cannot share *
 .pkl files with other people or between computers. To enable your annotations to be shared, they will also be saved in a *.csv file. These annotation files will
 be found and loaded automatically when first creating the python objects.
+
+### How to select a dataset for visualization
+There are three ways to specify which dataset is loaded for visualization. You can specify which dataset to load in the file `visualize.py` directly. To do 
+this look for the code below `if __name__ == '__main__':` and uncomment the part needed to load a specific dataset, comment the other parts. As you can see, 
+each dataset is identified with a DatasetID enum object. The NGSim and PNeuma dataset are split into parts based on recording location and time, the HighD 
+data is split into indexed sub-sets. The enum objects correspond to the divisions made in the data source. For the example used in the getting started 
+part, the dataset_id should be a dataset ID corresponding to a dataset from the `NGSIM-US101`-location, in this specific case, it could be `NGSimDatasetID.
+US101_0805_0820`. Here, `US101` refers to the location of the recording and `0805_0820` to the time of the recording (between 08:05 and 08:20 AM).
+
+Alternatively, you can pass arguments from the command line to specify which dataset to load. This will override any `dataset_id` specified in `visualize.py`.
+To specify which dataset to load a source and a dataset ID need to be specified. The source argument (`-s`) should be one of {highd, ngsim, pneuma}. The 
+dataset argument (`-d`) should be the name of the enum value, e.g. to load HighD dataset 1 run `python visualize.py -s highd -d DATASET_01`.
+
+If no dataset ID is specified in the file or arguments, TraViA will ask the user what dataset to use with a dialog. This dialog will only show the dataset 
+IDs corresponding to data files that can be found in the data folder.  
+
+The script to start TraViA is a file called `visualize.py` and it can be found in the main project folder. This file is where you indicate which dataset you
+want to load. Open the file now and look for the code below `if __name__ == '__main__':`. Uncomment the part needed to load an NGSim dataset, and comment the
+other parts. 
 
 ### HighD example tools
 
