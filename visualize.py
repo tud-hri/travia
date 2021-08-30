@@ -16,24 +16,25 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Travia.  If not, see <https://www.gnu.org/licenses/>.
 """
+import argparse
 import datetime
 import sys
+import warnings
 
 from PyQt5 import QtWidgets
 
 from dataobjects import PNeumaDataset, NGSimDataset, HighDDataset
-from dataobjects.enums import DataSource, PNeumaDatasetID, NGSimDatasetID, HighDDatasetID
-from gui import TrafficVisualizerGui
+from dataobjects.enums import DataSource, HighDDatasetID, NGSimDatasetID, PNeumaDatasetID
+from gui import TrafficVisualizerGui, DatasetSelectionDialog
 from visualisation import NGSimVisualisationMaster, HighDVisualisationMaster, PNeumaVisualisationMaster
 
 
 def visualize_traffic_data(data, dataset_id, app):
-
     gui = TrafficVisualizerGui(data)
 
     if dataset_id.data_source == DataSource.NGSIM:
-        start_time = datetime.datetime.fromtimestamp(int(data.track_data.loc[:, 'Global_Time'].min()/1000))
-        end_time = datetime.datetime.fromtimestamp(int(data.track_data.loc[:, 'Global_Time'].max()/1000))
+        start_time = datetime.datetime.fromtimestamp(int(data.track_data.loc[:, 'Global_Time'].min() / 1000))
+        end_time = datetime.datetime.fromtimestamp(int(data.track_data.loc[:, 'Global_Time'].max() / 1000))
         first_frame = data.track_data.loc[:, 'Frame_ID'].min()
         number_of_frames = data.track_data.loc[:, 'Frame_ID'].max() - first_frame
         visualisation_master = NGSimVisualisationMaster(data, gui, start_time, end_time, number_of_frames, first_frame)
@@ -54,24 +55,85 @@ def visualize_traffic_data(data, dataset_id, app):
     sys.exit(exit_code)
 
 
+def get_dataset_id_from_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-s",
+        "--source",
+        type=str,
+        choices=["highd", "ngsim", "pneuma"],
+        help="The data source, one of highd, ngsim, pneuma",
+        required=False,
+    )
+    parser.add_argument(
+        "-d",
+        "--dataset",
+        type=str,
+        help="The dataset id",
+        required=False,
+    )
+    known_args, other_args = parser.parse_known_args()
+
+    try:
+        if known_args.source == 'highd':
+            dataset_id = HighDDatasetID[known_args.dataset]
+        elif known_args.source == 'ngsim':
+            dataset_id = NGSimDatasetID[known_args.dataset]
+        elif known_args.source == 'pneuma':
+            dataset_id = PNeumaDatasetID[known_args.dataset]
+        else:
+            dataset_id = None
+    except KeyError:
+        warnings.warn('Invalid dataset source and ID combination provided')
+        dataset_id = None
+
+    return dataset_id, other_args
+
+
+def get_dataset_id_from_dialog(qt_args):
+    data_selection_app = QtWidgets.QApplication(qt_args)
+    dataset_selection_dialog = DatasetSelectionDialog()
+    data_selection_app.exec_()
+    return dataset_selection_dialog.selected_dataset_id
+
+
 if __name__ == '__main__':
     """
     To visualise data, you need to define the dataset ID. These ID's are predefined in enums and contain information like the file path for the data and images.
     With this ID, it is possible to load the dataset. All projects have their own enum for ID's and class for datasets. Please look at the examples below to see
     how to load a dataset. 
     """
-    app = QtWidgets.QApplication(sys.argv)
 
-    "For loading a HighD dataset, uncomment the next two lines: "
+    "For direct loading of a HighD dataset, uncomment the next line: "
     # dataset_id = HighDDatasetID.DATASET_01
-    # data = HighDDataset.load(dataset_id)
-
-    "For loading a NGSIM dataset, uncomment the next two lines: "
-    dataset_id = NGSimDatasetID.US101_0805_0820
-    data = NGSimDataset.load(dataset_id)
-
-    "For loading a PNeuma dataset, uncomment the next two lines: "
+    "For direct loading of an NGSIM dataset, uncomment the next line: "
+    # dataset_id = NGSimDatasetID.US101_0805_0820
+    "For direct loading of a PNeuma dataset, uncomment the next line: "
     # dataset_id = PNeumaDatasetID.D181029_T1000_1030_DR8
-    # data = PNeumaDataset.load(dataset_id)
 
-    visualize_traffic_data(data, dataset_id, app)
+    # check if a dataset id was provided in arguments, if so: overrule the id above
+    id_from_arguments, other_args = get_dataset_id_from_arguments()
+
+    if id_from_arguments is not None:
+        dataset_id = id_from_arguments
+
+    # if no dataset is selected yet, prompt the user with a dialog to select a dataset
+    try:
+        dataset_id
+    except NameError:
+        dataset_id = get_dataset_id_from_dialog(other_args)
+
+    if dataset_id is None:
+        exit(0)
+
+    # load data and start
+    main_app = QtWidgets.QApplication(other_args)
+
+    if dataset_id.data_source == DataSource.HIGHD:
+        data = HighDDataset.load(dataset_id)
+    elif dataset_id.data_source == DataSource.NGSIM:
+        data = NGSimDataset.load(dataset_id)
+    elif dataset_id.data_source == DataSource.PNEUMA:
+        data = PNeumaDataset.load(dataset_id)
+
+    visualize_traffic_data(data, dataset_id, main_app)
