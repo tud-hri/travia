@@ -17,11 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Travia.  If not, see <https://www.gnu.org/licenses/>.
 """
 import enum
+import os
+
 from .datasource import DataSource
 
 
 class HighDDatasetID(enum.Enum):
-
     DATASET_01 = 1
     DATASET_02 = 2
     DATASET_03 = 3
@@ -85,7 +86,7 @@ class HighDDatasetID(enum.Enum):
 
     @property
     def data_sub_folder(self):
-        return 'HighD/data/'
+        return os.path.join('HighD', 'data')
 
     @property
     def data_file_name(self):
@@ -109,7 +110,7 @@ class HighDDatasetID(enum.Enum):
 
     @property
     def map_sub_folder(self):
-        return 'HighD/images/'
+        return os.path.join('HighD', 'images')
 
     @property
     def data_source(self):

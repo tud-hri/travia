@@ -18,6 +18,7 @@ along with Travia.  If not, see <https://www.gnu.org/licenses/>.
 """
 import abc
 import enum
+import os
 
 from .annotation import Annotation
 from .enums import AnnotationType
@@ -28,7 +29,7 @@ class Dataset(abc.ABC):
     dataset_id: enum.Enum
 
     def _save_annotations_to_csv(self):
-        file_name = 'data/' + self.dataset_id.data_sub_folder + self.dataset_id.data_file_name + '_annotations.csv'
+        file_name = os.path.join('data', self.dataset_id.data_sub_folder, self.dataset_id.data_file_name + '_annotations.csv')
         with open(file_name, 'w') as f:
             f.write('first_frame, last_frame, ego_vehicle_id, annotation_type, notes\n')
             for annotation in self.annotation_data:
@@ -38,7 +39,8 @@ class Dataset(abc.ABC):
 
     def load_annotations_from_csv(self):
         try:
-            with open('data/' + self.dataset_id.data_sub_folder + self.dataset_id.data_file_name + '_annotations.csv', 'r') as f:
+            file_name = os.path.join('data', self.dataset_id.data_sub_folder, self.dataset_id.data_file_name + '_annotations.csv')
+            with open(file_name, 'r') as f:
                 header = f.readline()
                 for line in f:
                     annotations_as_list = line.replace('\n', '').split(', ')

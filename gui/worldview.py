@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Travia.  If not, see <https://www.gnu.org/licenses/>.
 """
-import math
+import os
 
 import numpy as np
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -74,8 +74,9 @@ class WorldView(QtWidgets.QGraphicsView):
     def _load_background(self, dataset_id):
         if dataset_id.data_source is DataSource.HIGHD:
             meters_per_pixel = 4 * 0.10106  # from MATLAB example code
+            path_to_file = os.path.join('data', dataset_id.map_sub_folder, dataset_id.map_image_name + '.png')
 
-            pixmap = QtGui.QPixmap('data/' + dataset_id.map_sub_folder + dataset_id.map_image_name + '.png')
+            pixmap = QtGui.QPixmap(path_to_file)
             actual_height = pixmap.height() * meters_per_pixel
             self.map_item = QtWidgets.QGraphicsPixmapItem(pixmap)
             scale_factor = self.map_item.sceneBoundingRect().height()/actual_height
@@ -84,7 +85,7 @@ class WorldView(QtWidgets.QGraphicsView):
             self.map_item.setPos(0, 0)
             self.scene.addItem(self.map_item)
         elif dataset_id.data_source in [DataSource.NGSIM, DataSource.PNEUMA]:
-            path_to_file = 'data/' + dataset_id.map_sub_folder + dataset_id.map_image_name
+            path_to_file = os.path.join('data', dataset_id.map_sub_folder, dataset_id.map_image_name)
             pixmap = QtGui.QPixmap(path_to_file + '.tif')
             self.map_item = QtWidgets.QGraphicsPixmapItem(pixmap)
 

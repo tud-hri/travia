@@ -38,11 +38,12 @@ class NGSimDataset(Dataset):
 
     def save(self):
         self._save_annotations_to_csv()
-        save_encrypted_pickle('data/' + self.dataset_id.data_sub_folder + self.dataset_id.data_file_name + '.pkl', self)
+        file_path = os.path.join('data', self.dataset_id.data_sub_folder, self.dataset_id.data_file_name + '.pkl')
+        save_encrypted_pickle(file_path, self)
 
     @staticmethod
     def load(dataset_id: NGSimDatasetID):
-        file_location = 'data/' + dataset_id.data_sub_folder + dataset_id.data_file_name
+        file_location = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name)
         if os.path.isfile(file_location + '.pkl'):
             return load_encrypted_pickle(file_location + '.pkl')
         elif os.path.isfile(file_location + '.csv'):
@@ -50,13 +51,13 @@ class NGSimDataset(Dataset):
             dataset.save()
             return dataset
         elif dataset_id in [NGSimDatasetID.PEACHTREE_0400_0415, NGSimDatasetID.PEACHTREE_1245_0100]:
-            if os.path.isfile('data/' + dataset_id.data_sub_folder + 'NGSIM_Peachtree_Vehicle_Trajectories.csv'):
+            if os.path.isfile(os.path.join('data', dataset_id.data_sub_folder, 'NGSIM_Peachtree_Vehicle_Trajectories.csv')):
                 split_peachtree_data()
                 dataset = NGSimDataset.read_ngsim_csv(dataset_id)
                 dataset.save()
                 return dataset
         elif dataset_id in [NGSimDatasetID.LANKERSHIM_0828_0845, NGSimDatasetID.LANKERSHIM_0845_0900]:
-            if os.path.isfile('data/' + dataset_id.data_sub_folder + 'NGSIM__Lankershim_Vehicle_Trajectories.csv'):
+            if os.path.isfile(os.path.join('data', dataset_id.data_sub_folder, 'NGSIM__Lankershim_Vehicle_Trajectories.csv')):
                 split_lankershim_data()
                 dataset = NGSimDataset.read_ngsim_csv(dataset_id)
                 dataset.save()
@@ -69,7 +70,8 @@ class NGSimDataset(Dataset):
     def read_ngsim_csv(dataset_id: NGSimDatasetID):
         METERS_PER_US_SURVEY_FOOT = 0.3048006096
 
-        data_in_feet = pd.read_csv('data/' + dataset_id.data_sub_folder + dataset_id.data_file_name + '.csv')
+        path_to_csv = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name + '.csv')
+        data_in_feet = pd.read_csv(path_to_csv)
         data_in_m = data_in_feet.copy()
 
         data_in_m.Local_X *= METERS_PER_US_SURVEY_FOOT

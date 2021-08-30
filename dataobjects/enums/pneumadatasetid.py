@@ -16,8 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Travia.  If not, see <https://www.gnu.org/licenses/>.
 """
-import enum
 import datetime
+import enum
+import os
 
 from .datasource import DataSource
 
@@ -299,13 +300,13 @@ class PNeumaDatasetID(enum.Enum):
     @property
     def data_sub_folder(self):
         if self.value & 0x000F0:
-            return 'pNeuma/20181024/'
+            return os.path.join('pNeuma', '20181024')
         elif self.value & 0x00F00:
-            return 'pNeuma/20181029/'
+            return os.path.join('pNeuma', '20181029')
         elif self.value & 0x0F000:
-            return 'pNeuma/20181030/'
+            return os.path.join('pNeuma', '20181030')
         else:
-            return 'pNeuma/20181101/'
+            return os.path.join('pNeuma', '20181101')
 
     @property
     def data_file_name(self):
@@ -367,7 +368,7 @@ class PNeumaDatasetID(enum.Enum):
 
     @property
     def map_sub_folder(self):
-        return 'pNeuma/images/'
+        return os.path.join('pNeuma', 'images')
 
     @property
     def map_image_name(self):

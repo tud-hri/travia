@@ -48,11 +48,12 @@ class PNeumaDataset(Dataset):
 
     def save(self):
         self._save_annotations_to_csv()
-        save_encrypted_pickle('data/' + self.dataset_id.data_sub_folder + self.dataset_id.data_file_name + '.pkl', self)
+        file_path = os.path.join('data', self.dataset_id.data_sub_folder, self.dataset_id.data_file_name + '.pkl')
+        save_encrypted_pickle(file_path, self)
 
     @staticmethod
     def load(dataset_id: PNeumaDatasetID):
-        file_location = 'data/' + dataset_id.data_sub_folder + dataset_id.data_file_name
+        file_location = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name)
         if os.path.isfile(file_location + '.pkl'):
             return load_encrypted_pickle(file_location + '.pkl')
         else:
@@ -70,7 +71,8 @@ class PNeumaDataset(Dataset):
         coordinate_transformer = Transformer.from_crs(crs_gps, crs_web_mercator)
 
         # get number of lines in file first
-        with open('data/' + dataset_id.data_sub_folder + dataset_id.data_file_name + '.csv', 'r') as file:
+        file_path = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name + '.csv')
+        with open(file_path, 'r') as file:
             lines = len([line for line in file])
 
         progress_dialog = QtWidgets.QProgressDialog('Converting PNeuma csv to data frame', None, 0, lines)
@@ -80,7 +82,7 @@ class PNeumaDataset(Dataset):
         progress_dialog.setValue(0)
         QtWidgets.QApplication.instance().processEvents()
 
-        with open('data/' + dataset_id.data_sub_folder + dataset_id.data_file_name + '.csv', 'r') as file:
+        with open(file_path, 'r') as file:
             for index, line in enumerate(file):
                 if not index:
                     # store the header

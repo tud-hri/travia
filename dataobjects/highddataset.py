@@ -51,11 +51,12 @@ class HighDDataset(Dataset):
         self.annotation_data = []
 
     def save(self):
-        save_encrypted_pickle('data/' + self.dataset_id.data_sub_folder + self.dataset_id.data_file_name + '.pkl', self)
+        file_path = os.path.join('data', self.dataset_id.data_sub_folder, self.dataset_id.data_file_name + '.pkl')
+        save_encrypted_pickle(file_path, self)
 
     @staticmethod
     def load(dataset_id: HighDDatasetID):
-        file_location = 'data/' + dataset_id.data_sub_folder + dataset_id.data_file_name
+        file_location = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name)
         if os.path.isfile(file_location + '.pkl'):
             return load_encrypted_pickle(file_location + '.pkl')
         else:
@@ -66,9 +67,9 @@ class HighDDataset(Dataset):
     @staticmethod
     def read_highd_csv(dataset_id: HighDDatasetID):
         dataset = HighDDataset(dataset_id)
-
+        path_to_csv = os.path.join('data', dataset_id.data_sub_folder, dataset_id.recording_meta_data_file_name + '.csv')
         try:
-            recording_meta_data = pd.read_csv('data/' + dataset_id.data_sub_folder + dataset_id.recording_meta_data_file_name + '.csv')
+            recording_meta_data = pd.read_csv(path_to_csv)
         except FileNotFoundError:
             raise ValueError('The dataset ' + str(dataset_id) + ' could not be loaded because the data is missing.')
 
@@ -88,7 +89,8 @@ class HighDDataset(Dataset):
         dataset.upper_lane_markings = [float(value) for value in recording_meta_data.at[0, 'upperLaneMarkings'].split(';')]
         dataset.lower_lane_markings = [float(value) for value in recording_meta_data.at[0, 'lowerLaneMarkings'].split(';')]
 
-        track_meta_data = pd.read_csv('data/' + dataset_id.data_sub_folder + dataset_id.track_meta_data_file_name + '.csv')
+        path_to_meta_csv = os.path.join('data', dataset_id.data_sub_folder, dataset_id.track_meta_data_file_name + '.csv')
+        track_meta_data = pd.read_csv(path_to_meta_csv)
         dataset.track_meta_data = track_meta_data.astype({"id": int,
                                                           "width": float,
                                                           "height": float,
@@ -107,7 +109,8 @@ class HighDDataset(Dataset):
                                                           "numLaneChanges": int})
         dataset.track_meta_data = dataset.track_meta_data.set_index('id')
 
-        track_data = pd.read_csv('data/' + dataset_id.data_sub_folder + dataset_id.track_data_file_name + '.csv')
+        path_to_track_data = os.path.join('data', dataset_id.data_sub_folder, dataset_id.track_data_file_name + '.csv')
+        track_data = pd.read_csv(path_to_track_data)
         dataset.track_data = track_data.astype({"frame": int,
                                                 "id": int,
                                                 "x": float,

@@ -24,15 +24,17 @@ from cryptography.fernet import Fernet, InvalidToken
 
 def _get_key():
     home_folder = os.path.expanduser("~")
+    travia_folder = os.path.join(home_folder, '.travia')
+    key_file_path = os.path.join(travia_folder, '.traffic_data_key')
 
-    if not os.path.isfile(home_folder + '\\.travia\\.traffic_data_key'):
-        os.mkdir(home_folder + '\\.travia\\')
+    if not os.path.isfile(key_file_path):
+        os.mkdir(travia_folder)
         new_key = Fernet.generate_key()
-        with open(home_folder + '\\.travia\\.traffic_data_key', 'wb') as file:
+        with open(key_file_path, 'wb') as file:
             file.write(new_key)
         key = new_key
     else:
-        with open(home_folder + '\\.travia\\.traffic_data_key', 'rb') as file:
+        with open(key_file_path, 'rb') as file:
             key = file.readline()
     return key
 
