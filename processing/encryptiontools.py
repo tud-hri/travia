@@ -28,7 +28,8 @@ def _get_key():
     key_file_path = os.path.join(travia_folder, '.traffic_data_key')
 
     if not os.path.isfile(key_file_path):
-        os.mkdir(travia_folder)
+        if not os.path.isdir(travia_folder):
+            os.mkdir(travia_folder)
         new_key = Fernet.generate_key()
         with open(key_file_path, 'wb') as file:
             file.write(new_key)
