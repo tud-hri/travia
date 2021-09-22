@@ -1,4 +1,5 @@
 # Travia: a TRAffic VIsualization and Annotation tool
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.03607/status.svg)](https://doi.org/10.21105/joss.03607)
 
 In recent years many open datasets have been published that contain vehicle trajectories of human drivers on public roads. Such datasets can be useful for all
 kinds of research targeting traffic, e.g. traffic-flow studies and the development of autonomous vehicles. These datasets contain very large amounts of valuable
@@ -18,7 +19,7 @@ first example considers automatically detecting and annotating specific situatio
 overlays, to aid with the design of reward functions for autonomous driving. Finally, it includes an example of plotting vehicle signals on an annotated
 selection of data.
 
-Travia was tested with Python 3.8 on Windows.
+Travia was tested with Python 3.8 on Windows and Ubuntu.
 
 ## Installation
 
