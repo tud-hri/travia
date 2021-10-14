@@ -116,6 +116,8 @@ class WorldView(QtWidgets.QGraphicsView):
             self.map_item.setTransform(transform)
             self.map_item.setPos(bottom_left_x, - bottom_left_y)
             self.scene.addItem(self.map_item)
+        else:
+            raise ValueError('No alternative is implemented for this data source. Is it a new data source?')
 
     def add_vehicle(self, vehicle_object, vehicle_id):
         vehicle_graphics = VehicleGraphicsObject(vehicle_object, self.main_gui, vehicle_id)

@@ -127,6 +127,8 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
             self.vehicle_info_widget = PNeumaInfoWidget(parent=self)
         elif self.dataset_id.data_source == DataSource.EXID:
             self.vehicle_info_widget = ExidInfoWidget(parent=self)
+        else:
+            raise ValueError('No alternative is implemented for this data source. Is it a new data source?')
 
         self.ui.selectedVehicleInfoFrame.layout().addWidget(self.vehicle_info_widget)
 
@@ -288,7 +290,7 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
     def get_image_of_current_view(self):
         original_map_size = self.view.map_item.pixmap().size()
 
-        if self.dataset_id.data_source not in [DataSource.HIGHD, DataSource.EXID]:
+        if self.dataset_id.data_source in [DataSource.NGSIM, DataSource.PNEUMA]:
             # NGSIM and PNeuma Maps are quite big, scale them down and save at 25%
             original_map_size = 0.25 * original_map_size
 

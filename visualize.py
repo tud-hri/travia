@@ -50,6 +50,8 @@ def visualize_traffic_data(data, dataset_id, app):
             visualisation_master = ExiDVisualisationMaster(data, gui, start_time, end_time, number_of_frames, first_frame, dt)
     elif dataset_id.data_source == DataSource.PNEUMA:
         visualisation_master = PNeumaVisualisationMaster(data, gui, data.start_time, data.end_time, data.number_of_frames, 0, data.dt * 2, default_frame_step=2)
+    else:
+        raise ValueError('No alternative is implemented for this data source. Is it a new data source?')
 
     gui.register_visualisation_master(visualisation_master)
 
@@ -142,5 +144,7 @@ if __name__ == '__main__':
         data = PNeumaDataset.load(dataset_id)
     elif dataset_id.data_source == DataSource.EXID:
         data = ExiDDataset.load(dataset_id)
+    else:
+        raise ValueError('No alternative is implemented for this data source. Is it a new data source?')
 
     visualize_traffic_data(data, dataset_id, main_app)

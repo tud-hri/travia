@@ -53,3 +53,5 @@ class DatasetSelectionDialog(QtWidgets.QDialog):
                 file_path = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name)
                 if os.path.isfile(file_path + '.pkl') or os.path.isfile(file_path + '.csv'):
                     self.ui.datasetComboBox.addItem(str(dataset_id), userData=dataset_id)
+        else:
+            raise ValueError('No alternative is implemented for this data source. Is it a new data source?')
