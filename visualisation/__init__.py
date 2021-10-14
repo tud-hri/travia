@@ -1,4 +1,5 @@
 from .highdvisualisationmaster import HighDVisualisationMaster
 from .ngsimvisualisationmaster import NGSimVisualisationMaster
 from .pneumavisualisationmaster import PNeumaVisualisationMaster
+from .exidvisualisationmaster import ExiDVisualisationMaster
 from .visualisationmaster import VisualisationMaster

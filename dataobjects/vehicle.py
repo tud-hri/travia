@@ -57,9 +57,13 @@ class Vehicle:
         self.origin_zone = 0
         self.destination_zone = 0
 
-        # Pneuma specific
+        # Pneuma & ExiD specific
         self.current_lon_acceleration = 0.0
         self.current_lat_acceleration = 0.0
+
+        # ExiD specific
+        self.current_lon_velocity = 0.0
+        self.current_lat_velocity = 0.0
 
         # HighD specific
         self.current_linear_velocities = np.array([0.0, 0.0])
@@ -81,6 +85,9 @@ class Vehicle:
         self.smoothing_succeeded = False
         self.current_forward_velocity = 0.0
         self.current_forwards_acceleration = 0.0
+
+    def set_pos_from_center_position(self, pos, heading):
+        self.current_position[:] = (pos + np.array([np.cos(-heading), np.sin(-heading)]) * (self.length / 2.0))[:]
 
     def set_pos_from_top_left_corner(self, pos):
         if self.driving_direction == 2:
@@ -147,6 +154,24 @@ class Vehicle:
 
         return new_vehicle
 
+    @staticmethod
+    def from_exid_row(meta_data_row):
+        if len(meta_data_row) != 1:
+            raise ValueError('A Vehicle object can only be constructed from a single row.')
+        index = meta_data_row.index[0]
+
+        new_vehicle = Vehicle()
+
+        new_vehicle.id = index
+        new_vehicle.length = float(meta_data_row.at[index, 'length'])
+        new_vehicle.width = float(meta_data_row.at[index, 'width'])
+        new_vehicle.first_frame = int(meta_data_row.at[index, 'initialFrame'])
+        new_vehicle.last_frame = int(meta_data_row.at[index, 'finalFrame'])
+        new_vehicle.total_number_of_frames = int(meta_data_row.at[index, 'numFrames'])
+        new_vehicle.vehicle_type = VehicleType.from_string(meta_data_row.at[index, 'class'])
+
+        return new_vehicle
+
     @property
     def center_position(self):
-        return self.current_position - np.array([np.cos(self.current_heading), np.sin(self.current_heading)]) * (self.length/2.0)
+        return self.current_position - np.array([np.cos(-self.current_heading), np.sin(-self.current_heading)]) * (self.length/2.0)

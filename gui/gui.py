@@ -32,7 +32,7 @@ from .annotationgraphics import AnnotationGraphicsObject
 from .guimainwindow_ui import Ui_MainWindow
 from .legenddialog import LegendDialog
 from .worldview import WorldView
-from gui.widgets import PNeumaInfoWidget, NGSimInfoWidget, HighDInfoWidget, VehicleInfoWidget
+from gui.widgets import PNeumaInfoWidget, NGSimInfoWidget, HighDInfoWidget, ExidInfoWidget, VehicleInfoWidget
 
 
 class TrafficVisualizerGui(QtWidgets.QMainWindow):
@@ -50,7 +50,7 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
 
         self.visualisation_master = None
         self.dataset_id = dataset.dataset_id
-        self.view = WorldView(self, dataset.dataset_id)
+        self.view = WorldView(self, dataset.dataset_id, dataset)
         self.ui.graphicsFrame.layout().addWidget(self.view)
 
         self.ui.actionColor_legend.triggered.connect(lambda: LegendDialog(parent=self))
@@ -125,6 +125,8 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
             self.vehicle_info_widget = NGSimInfoWidget(parent=self)
         elif self.dataset_id.data_source == DataSource.PNEUMA:
             self.vehicle_info_widget = PNeumaInfoWidget(parent=self)
+        elif self.dataset_id.data_source == DataSource.EXID:
+            self.vehicle_info_widget = ExidInfoWidget(parent=self)
 
         self.ui.selectedVehicleInfoFrame.layout().addWidget(self.vehicle_info_widget)
 
@@ -286,7 +288,7 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
     def get_image_of_current_view(self):
         original_map_size = self.view.map_item.pixmap().size()
 
-        if self.dataset_id.data_source is not DataSource.HIGHD:
+        if self.dataset_id.data_source not in [DataSource.HIGHD, DataSource.EXID]:
             # NGSIM and PNeuma Maps are quite big, scale them down and save at 25%
             original_map_size = 0.25 * original_map_size
 

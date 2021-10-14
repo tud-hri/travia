@@ -28,6 +28,9 @@ class VehicleType(enum.Enum):
     BUS = 5
     MEDIUM_VEHICLE = 6
     HEAVY_VEHICLE = 7
+    PEDESTRIAN = 8
+    BICYCLE = 9
+    VAN = 10
 
     def __str__(self):
         return {VehicleType.CAR: 'car',
@@ -37,6 +40,9 @@ class VehicleType(enum.Enum):
                 VehicleType.BUS: 'bus',
                 VehicleType.MEDIUM_VEHICLE: 'heavy vehicle',
                 VehicleType.HEAVY_VEHICLE: 'medium vehicle',
+                VehicleType.PEDESTRIAN: 'pedestrian',
+                VehicleType.BICYCLE: 'bicycle',
+                VehicleType.VAN: 'van'
                 }[self]
 
     @property
@@ -48,6 +54,9 @@ class VehicleType(enum.Enum):
                 VehicleType.BUS: QtGui.QColor(0x0061b0),
                 VehicleType.MEDIUM_VEHICLE: QtGui.QColor(0x00705c),
                 VehicleType.HEAVY_VEHICLE: QtGui.QColor(0x00d1ac),
+                VehicleType.PEDESTRIAN: QtGui.QColor(0xa60000),
+                VehicleType.BICYCLE: QtGui.QColor(0xc900b2),
+                VehicleType.VAN: QtGui.QColor(0x633f00),
                 }[self]
 
     @property
@@ -62,6 +71,9 @@ class VehicleType(enum.Enum):
                 VehicleType.BUS: (2.5, 12.0),
                 VehicleType.MEDIUM_VEHICLE: (2.5, 8.0),
                 VehicleType.HEAVY_VEHICLE: (2.5, 12.0),
+                VehicleType.PEDESTRIAN: (.5, .5),
+                VehicleType.BICYCLE: (0.5, 1.5),
+                VehicleType.VAN: (2.5, 8.0),
                 }[self]
 
     @staticmethod

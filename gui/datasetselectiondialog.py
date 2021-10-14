@@ -2,7 +2,7 @@ import os
 
 from PyQt5 import QtWidgets
 
-from dataobjects.enums import DataSource, HighDDatasetID, NGSimDatasetID, PNeumaDatasetID
+from dataobjects.enums import DataSource, HighDDatasetID, NGSimDatasetID, PNeumaDatasetID, ExiDDatasetID
 from .dataset_selection_dialog_ui import Ui_DatasetSelectionDialog
 
 
@@ -35,8 +35,11 @@ class DatasetSelectionDialog(QtWidgets.QDialog):
 
         current_data_source = self.ui.dataSourceComboBox.currentData()
 
-        if current_data_source == DataSource.HIGHD:
-            for dataset_id in HighDDatasetID:
+        if current_data_source in [DataSource.HIGHD, DataSource.EXID]:
+
+            all_ids = HighDDatasetID if current_data_source is DataSource.HIGHD else ExiDDatasetID
+
+            for dataset_id in all_ids:
                 pkl_file_path = os.path.join('data', dataset_id.data_sub_folder, dataset_id.data_file_name + '.pkl')
                 csv_file_path = os.path.join('data', dataset_id.data_sub_folder, dataset_id.track_data_file_name + '.csv')
 

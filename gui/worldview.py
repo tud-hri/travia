@@ -20,16 +20,16 @@ import os
 
 import numpy as np
 from PyQt5 import QtWidgets, QtGui, QtCore
-from dataobjects.enums import DataSource
 
-from .vehiclegraphics import VehicleGraphicsObject
+from dataobjects.enums import DataSource
 from .overlay import Overlay
+from .vehiclegraphics import VehicleGraphicsObject
 
 METERS_PER_US_SURVEY_FOOT = 0.3048006096
 
 
 class WorldView(QtWidgets.QGraphicsView):
-    def __init__(self, main_gui, dataset_id, parent=None):
+    def __init__(self, main_gui, dataset_id, dataset, parent=None):
         super().__init__(parent)
 
         self.main_gui = main_gui
@@ -40,7 +40,7 @@ class WorldView(QtWidgets.QGraphicsView):
 
         self.map_item = None
         self.overlay_item = None
-        self._load_background(dataset_id)
+        self._load_background(dataset_id, dataset)
 
         self.dial = QtWidgets.QDial(parent=self)
         self.dial.setFixedHeight(50)
@@ -71,15 +71,19 @@ class WorldView(QtWidgets.QGraphicsView):
 
         self.graphics_objects = {}
 
-    def _load_background(self, dataset_id):
-        if dataset_id.data_source is DataSource.HIGHD:
-            meters_per_pixel = 4 * 0.10106  # from MATLAB example code
+    def _load_background(self, dataset_id, dataset):
+        if dataset_id.data_source in [DataSource.HIGHD, DataSource.EXID]:
+            if dataset_id.data_source is DataSource.HIGHD:
+                meters_per_pixel = 4 * 0.10106  # from MATLAB example code
+            else:
+                meters_per_pixel = 6 * dataset.ortho_px_to_meter  # scale parameter 6 comes from json file with visualiser parameters
             path_to_file = os.path.join('data', dataset_id.map_sub_folder, dataset_id.map_image_name + '.png')
 
             pixmap = QtGui.QPixmap(path_to_file)
             actual_height = pixmap.height() * meters_per_pixel
             self.map_item = QtWidgets.QGraphicsPixmapItem(pixmap)
-            scale_factor = self.map_item.sceneBoundingRect().height()/actual_height
+            self.map_item.setTransformationMode(QtCore.Qt.SmoothTransformation)
+            scale_factor = self.map_item.sceneBoundingRect().height() / actual_height
             self.map_item.setScale(meters_per_pixel)
 
             self.map_item.setPos(0, 0)

@@ -69,5 +69,14 @@ class VehicleGraphicsObject(QtWidgets.QGraphicsItemGroup):
     def setRotation(self, angle: float):
         super(VehicleGraphicsObject, self).setRotation(angle)
 
-        self.upside_down_text.setVisible(abs(angle) >= 90.0)
-        self.text.setVisible(abs(angle) < 90.0)
+        view_rotation_angle = self.main_gui.view.current_rotation
+
+        total_visual_rotation = view_rotation_angle + angle
+        while abs(total_visual_rotation) > 180:
+            if total_visual_rotation > 0:
+                total_visual_rotation -= 360
+            else:
+                total_visual_rotation += 360
+
+        self.upside_down_text.setVisible(total_visual_rotation > 90.0 or total_visual_rotation < -90.)
+        self.text.setVisible(-90. < total_visual_rotation < 90.0)

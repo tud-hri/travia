@@ -23,8 +23,10 @@ class DataSource(enum.Enum):
     NGSIM = 0
     HIGHD = 1
     PNEUMA = 2
+    EXID = 3
 
     def __str__(self):
         return{DataSource.NGSIM: 'NGSim',
                DataSource.HIGHD: 'HighD',
-               DataSource.PNEUMA: 'pNEUMA',}[self]
+               DataSource.PNEUMA: 'pNEUMA',
+               DataSource.EXID: 'ExiD',}[self]

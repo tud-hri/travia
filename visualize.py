@@ -23,10 +23,10 @@ import warnings
 
 from PyQt5 import QtWidgets
 
-from dataobjects import PNeumaDataset, NGSimDataset, HighDDataset
-from dataobjects.enums import DataSource, HighDDatasetID, NGSimDatasetID, PNeumaDatasetID
+from dataobjects import PNeumaDataset, NGSimDataset, HighDDataset, ExiDDataset
+from dataobjects.enums import DataSource, HighDDatasetID, NGSimDatasetID, PNeumaDatasetID, ExiDDatasetID
 from gui import TrafficVisualizerGui, DatasetSelectionDialog
-from visualisation import NGSimVisualisationMaster, HighDVisualisationMaster, PNeumaVisualisationMaster
+from visualisation import NGSimVisualisationMaster, HighDVisualisationMaster, PNeumaVisualisationMaster, ExiDVisualisationMaster
 
 
 def visualize_traffic_data(data, dataset_id, app):
@@ -38,13 +38,16 @@ def visualize_traffic_data(data, dataset_id, app):
         first_frame = data.track_data.loc[:, 'Frame_ID'].min()
         number_of_frames = data.track_data.loc[:, 'Frame_ID'].max() - first_frame
         visualisation_master = NGSimVisualisationMaster(data, gui, start_time, end_time, number_of_frames, first_frame)
-    elif dataset_id.data_source == DataSource.HIGHD:
+    elif dataset_id.data_source in [DataSource.HIGHD, DataSource.EXID]:
         start_time = data.start_time
         end_time = start_time + datetime.timedelta(milliseconds=int(data.duration * 1000))
         first_frame = data.track_data['frame'].min()
         number_of_frames = data.track_data['frame'].max() - first_frame
         dt = datetime.timedelta(seconds=1 / data.frame_rate)
-        visualisation_master = HighDVisualisationMaster(data, gui, start_time, end_time, number_of_frames, first_frame, dt)
+        if dataset_id.data_source is DataSource.HIGHD:
+            visualisation_master = HighDVisualisationMaster(data, gui, start_time, end_time, number_of_frames, first_frame, dt)
+        else:
+            visualisation_master = ExiDVisualisationMaster(data, gui, start_time, end_time, number_of_frames, first_frame, dt)
     elif dataset_id.data_source == DataSource.PNEUMA:
         visualisation_master = PNeumaVisualisationMaster(data, gui, data.start_time, data.end_time, data.number_of_frames, 0, data.dt * 2, default_frame_step=2)
 
@@ -110,6 +113,8 @@ if __name__ == '__main__':
     # dataset_id = NGSimDatasetID.US101_0805_0820
     "For direct loading of a PNeuma dataset, uncomment the next line: "
     # dataset_id = PNeumaDatasetID.D181029_T1000_1030_DR8
+    "For direct loading of an ExiD dataset, uncomment the next line: "
+    # dataset_id = ExiDDatasetID.DATASET_26
 
     # check if a dataset id was provided in arguments, if so: overrule the id above
     id_from_arguments, other_args = get_dataset_id_from_arguments()
@@ -135,5 +140,7 @@ if __name__ == '__main__':
         data = NGSimDataset.load(dataset_id)
     elif dataset_id.data_source == DataSource.PNEUMA:
         data = PNeumaDataset.load(dataset_id)
+    elif dataset_id.data_source == DataSource.EXID:
+        data = ExiDDataset.load(dataset_id)
 
     visualize_traffic_data(data, dataset_id, main_app)
