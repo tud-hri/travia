@@ -1,11 +1,11 @@
-Put data from the HighD project in this folder.
-More information on the HighD dataset and how to obtain a copy can be found here: https://www.highd-dataset.com/.
+Put data from the ExiD project in this folder.
+More information on the ExiD dataset and how to obtain a copy can be found here: https://www.exid-dataset.com/.
 
 Please use the following folder structure:
 
 - data
     |
-    - HighD
+    - ExiD
         |
         - data
             |
@@ -21,4 +21,5 @@ Please use the following folder structure:
     |
     - NGSim
     |
-    - ExiD
+    - HighD
+

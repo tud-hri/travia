@@ -9,6 +9,8 @@ Please use the following folder structure:
     |
     - HighD
     |
+    - ExiD
+    |
     - Pneuma
     |
     - NGSim

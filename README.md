@@ -9,9 +9,9 @@ visualize and annotate the data for a quick start of your project. This is why T
 them
 together in one tool for visualization and annotation.
 
-Datasets from three different projects can currently be visualized using Travia. The NGSIM project collected data using cameras on tall buildings next to roads
+Datasets from four different projects can currently be visualized using Travia. The NGSIM project collected data using cameras on tall buildings next to roads
 in the USA. The PNeuma project captured all traffic during the morning rush hour in the business district of Athens, for 5 days. To maximize precision and
-coverage this was done using drones. Finally, the HighD project also used drones to record traffic on 6 locations at German highways.
+coverage this was done using drones. Finally, the HighD and ExiD projects also used drones to record traffic at different locations on German highways.
 
 TraViA was built as a broad basis for visualization and manual annotation, it can easily be extended to incorporate the specific needs of your research project.
 Three examples of such specific implementations are included in Travia to illustrate the possibilities and provide a starting point for other developers. The
@@ -126,9 +126,10 @@ Metadata on the dataset is stored as `Dataset` object attributes.
 
 ## Datasets and how to get them
 
-As said before, Travia supports data from three different projects:
+As said before, Travia supports data from four different projects:
 
 - [HighD](https://www.highd-dataset.com/)
+- [ExiD](https://www.exid-dataset.com/)
 - [NGSim](https://ops.fhwa.dot.gov/trafficanalysistools/ngsim.htm)
 - [PNeuma](https://open-traffic.epfl.ch/)
 
@@ -142,11 +143,12 @@ that are not accounted for. Please submit a bug report and/or a pull request con
 
 **Heading detection with Kalman smoother**
 
-None of the datasets provide headings for the vehicles. For the HighD data, this is no problem since the highways are straight, and the headings can  
-be assumed to be either 0 or pi at these high velocities. But for the NGSim and PNeuma datasets, headings have to be estimated to visualize the data. This is
-done automatically using an unscented Kalman smoother in `processing/kalmansmoothing.py`. The smoother uses a bicycle model to estimate the dynamics of
-vehicles. These smoothers were manually tuned to provide results that are good enough for visualization purposes, but only that. If you want to use the smoothed
-data for anything else than visualization, please verify that the smoother did not introduce problems for your approach.
+Only the Exid dataset provides headings for the vehicles, all of the other datasets do not. For the HighD data, this is no problem since the highways are 
+straight, and the headings can be assumed to be either 0 or pi at these high velocities. But for the NGSim and PNeuma datasets, headings have to be 
+estimated to visualize the data. This is done automatically using an unscented Kalman smoother in `processing/kalmansmoothing.py`. The smoother uses a 
+bicycle model to estimate the dynamics of vehicles. These smoothers were manually tuned to provide results that are good enough for visualization purposes, 
+but only that. If you want to use the smoothed data for anything else than visualization, please verify that the smoother did not introduce problems for 
+your approach.
 
 **missing vehicle sizes in PNeuma**
 
@@ -172,6 +174,10 @@ All NGSim data is provided in feet. All values are converted to SI-units in `dat
 
 **Velocity in km/h in Pneuma data**
 The PNeuma data is provided with velocities in km/h, this is converted to m/s in `dataobjects/pneumadataset.py` (`read_pneuma_csv` function).
+
+**Background for ExiD dataset 00-18**
+The background image for ExiD datasets 00 to 18 does not seem to match the recorded data. This issue also exists in the visualizer provided with the ExiD 
+data. Because there is no fix possible without access to the raw data and specific location of the recording, this issue remains open. 
 
 ### Where to place the data
 
