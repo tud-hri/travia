@@ -1,5 +1,6 @@
 /venv/
 /.idea/
+/__pycache__/
 *.csv
 *.pkl
 *.txt
