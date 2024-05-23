@@ -9,13 +9,10 @@ Please use the following folder structure:
         |
         - data
             |
-            (place all data *.csv files here)
-        |
-        - images
-            |
-            (place all images here)
+            (place all data *.csv files and all images here)
         |
         - README.txt
+        - changelog.txt (from the downloaded data, needed to obtain the dataset's version)
     |
     - Pneuma
     |

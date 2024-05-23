@@ -89,6 +89,10 @@ class HighDDatasetID(enum.Enum):
         return os.path.join('HighD', 'data')
 
     @property
+    def path_to_change_log(self):
+        return os.path.join('Exid', 'changelog.txt')
+
+    @property
     def data_file_name(self):
         return '%02d' % self.value
 
@@ -110,7 +114,7 @@ class HighDDatasetID(enum.Enum):
 
     @property
     def map_sub_folder(self):
-        return os.path.join('HighD', 'images')
+        return os.path.join('HighD', 'data')
 
     @property
     def data_source(self):

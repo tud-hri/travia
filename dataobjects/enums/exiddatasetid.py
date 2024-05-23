@@ -122,6 +122,10 @@ class ExiDDatasetID(enum.Enum):
         return os.path.join('Exid', 'data')
 
     @property
+    def path_to_change_log(self):
+        return os.path.join('Exid', 'changelog.txt')
+
+    @property
     def data_file_name(self):
         return '%02d' % self.value
 
@@ -143,7 +147,7 @@ class ExiDDatasetID(enum.Enum):
 
     @property
     def map_sub_folder(self):
-        return os.path.join('ExiD', 'images')
+        return os.path.join('ExiD', 'data')
 
     @property
     def data_source(self):

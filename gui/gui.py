@@ -293,6 +293,11 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
         if self.dataset_id.data_source in [DataSource.NGSIM, DataSource.PNEUMA]:
             # NGSIM and PNeuma Maps are quite big, scale them down and save at 25%
             original_map_size = 0.25 * original_map_size
+        if self.dataset_id.data_source is DataSource.EXID:
+            v = self.visualisation_master.sim_data.dataset_version
+            if int(v[0]) > 2 or (int(v[0]) == 2 and int(v[1]) >= 1):
+                # ExiD maps are big after version 2.1, scale them down and save at 25%
+                original_map_size = 0.25 * original_map_size
 
         scene_bounding_rect = self.view.map_item.sceneBoundingRect()
 
@@ -353,7 +358,7 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
 
     def update_time_in_gui(self, time: datetime.datetime, frame_number):
         if self.end_time:
-            self.ui.timeSlider.setValue((time - self.start_time) * 1000 / (self.end_time - self.start_time))
+            self.ui.timeSlider.setValue(int((time - self.start_time) * 1000 / (self.end_time - self.start_time)))
 
         self.ui.frameSpinBox.setValue(frame_number)
         self.ui.timeEdit.setTime(time.time())
@@ -397,7 +402,7 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
         ego_vehicle_x = data_in_annotation.loc[track_data.id == self.selected_annotation.ego_vehicle_id, 'x'].to_numpy()
         ego_vehicle_y = data_in_annotation.loc[track_data.id == self.selected_annotation.ego_vehicle_id, 'y'].to_numpy()
 
-        tracks_plot = pyqtgraph.PlotWindow(title='Tracks')
+        tracks_plot = pyqtgraph.PlotWidget(title='Tracks')
         tracks_plot.plot(ego_vehicle_x, ego_vehicle_y, pen='r', width=3)
         tracks_plot.setLabel('left', 'y [m]')
         tracks_plot.setLabel('bottom', 'x [m]')
@@ -444,7 +449,7 @@ class TrafficVisualizerGui(QtWidgets.QMainWindow):
                        bottom='frames'
                        )
 
-        y_vel_plot = pyqtgraph.PlotWindow(title='Y Velocity, Vehicle: %d, Dataset: %d' % (ego_vehicle_id, self.visualisation_master.sim_data.recording_id))
+        y_vel_plot = pyqtgraph.PlotWidget(title='Y Velocity, Vehicle: %d, Dataset: %d' % (ego_vehicle_id, self.visualisation_master.sim_data.recording_id))
         y_vel_plot.addLegend()
         y_vel_plot.setLabel('left', 'y velocity [m/s]')
         y_vel_plot.setLabel('bottom', 'Frames since first appearance')

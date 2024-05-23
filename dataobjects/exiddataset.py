@@ -30,6 +30,7 @@ from .dataset import Dataset
 class ExiDDataset(Dataset):
     def __init__(self, id: ExiDDatasetID):
         self.dataset_id = id
+        self.dataset_version = (0, 0)
         self.recording_id = 0
         self.frame_rate = 0
         self.location_id = 0
@@ -67,6 +68,15 @@ class ExiDDataset(Dataset):
     @staticmethod
     def read_exid_csv(dataset_id: ExiDDatasetID):
         dataset = ExiDDataset(dataset_id)
+
+        try:
+            with open(os.path.join('data', dataset_id.path_to_change_log)) as f:
+                version = f.readline().split(' ')[0]
+                version = version.replace('v', '').split('.')
+                dataset.dataset_version = tuple([int(i) for i in version])
+        except FileNotFoundError:
+            dataset.dataset_version = (1, 0)
+
         path_to_csv = os.path.join('data', dataset_id.data_sub_folder, dataset_id.recording_meta_data_file_name + '.csv')
         try:
             recording_meta_data = pd.read_csv(path_to_csv)
@@ -79,7 +89,10 @@ class ExiDDataset(Dataset):
         dataset.speed_limit = recording_meta_data.at[0, 'speedLimit']
 
         dataset.week_day = recording_meta_data.at[0, 'weekday']
-        dataset.start_time = datetime.datetime.strptime(str(recording_meta_data.at[0, 'startTime']), '%H')
+        try:
+            dataset.start_time = datetime.datetime.strptime(str(recording_meta_data.at[0, 'startTime']), '%H')
+        except ValueError:
+            dataset.start_time = datetime.datetime(year=2022, month=1, day=1)
         dataset.duration = recording_meta_data.at[0, 'duration']
 
         dataset.num_tracks = int(recording_meta_data.at[0, 'numTracks'])
@@ -105,24 +118,23 @@ class ExiDDataset(Dataset):
         dataset.track_meta_data = dataset.track_meta_data.set_index('trackId')
 
         path_to_track_data = os.path.join('data', dataset_id.data_sub_folder, dataset_id.track_data_file_name + '.csv')
-        track_data = pd.read_csv(path_to_track_data)
-        dataset.track_data = track_data.astype({"recordingId": int,
-                                                "trackId": int,
-                                                "frame": int,
-                                                "trackLifetime": int,
-                                                "xCenter": float,
-                                                "yCenter": float,
-                                                "heading": float,
-                                                "width": float,
-                                                "length": float,
-                                                "xVelocity": float,
-                                                "yVelocity": float,
-                                                "xAcceleration": float,
-                                                "yAcceleration": float,
-                                                "lonVelocity": float,
-                                                "latVelocity": float,
-                                                "lonAcceleration": float,
-                                                "latAcceleration": float})
+        dataset.track_data = pd.read_csv(path_to_track_data, dtype={"recordingId": int,
+                                                                    "trackId": int,
+                                                                    "frame": int,
+                                                                    "trackLifetime": int,
+                                                                    "xCenter": float,
+                                                                    "yCenter": float,
+                                                                    "heading": float,
+                                                                    "width": float,
+                                                                    "length": float,
+                                                                    "xVelocity": float,
+                                                                    "yVelocity": float,
+                                                                    "xAcceleration": float,
+                                                                    "yAcceleration": float,
+                                                                    "lonVelocity": float,
+                                                                    "latVelocity": float,
+                                                                    "lonAcceleration": float,
+                                                                    "latAcceleration": float})
         dataset.track_data['heading'] = np.radians(dataset.track_data['heading'])
         dataset.track_data['yCenter'] = dataset.track_data['yCenter'] * -1
         dataset.track_data['yVelocity'] = dataset.track_data['yVelocity'] * -1

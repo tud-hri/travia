@@ -29,6 +29,7 @@ from .dataset import Dataset
 class HighDDataset(Dataset):
     def __init__(self, id: HighDDatasetID):
         self.dataset_id = id
+        self.dataset_version = (0, 0)
         self.recording_id = 0
         self.frame_rate = 0
         self.location_id = 0
@@ -67,6 +68,12 @@ class HighDDataset(Dataset):
     @staticmethod
     def read_highd_csv(dataset_id: HighDDatasetID):
         dataset = HighDDataset(dataset_id)
+
+        with open(os.path.join('data', dataset_id.path_to_change_log)) as f:
+            version = f.readline().split(' ')[0]
+            version = version.replace('v', '').split('.')
+            dataset.dataset_version = tuple([int(i) for i in version])
+
         path_to_csv = os.path.join('data', dataset_id.data_sub_folder, dataset_id.recording_meta_data_file_name + '.csv')
         try:
             recording_meta_data = pd.read_csv(path_to_csv)

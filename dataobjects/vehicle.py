@@ -163,12 +163,15 @@ class Vehicle:
         new_vehicle = Vehicle()
 
         new_vehicle.id = index
+        new_vehicle.vehicle_type = VehicleType.from_string(meta_data_row.at[index, 'class'])
         new_vehicle.length = float(meta_data_row.at[index, 'length'])
         new_vehicle.width = float(meta_data_row.at[index, 'width'])
         new_vehicle.first_frame = int(meta_data_row.at[index, 'initialFrame'])
         new_vehicle.last_frame = int(meta_data_row.at[index, 'finalFrame'])
         new_vehicle.total_number_of_frames = int(meta_data_row.at[index, 'numFrames'])
-        new_vehicle.vehicle_type = VehicleType.from_string(meta_data_row.at[index, 'class'])
+
+        if not new_vehicle.width or not new_vehicle.length:
+            new_vehicle.width, new_vehicle.length = new_vehicle.vehicle_type.default_size_for_pneuma
 
         return new_vehicle
 

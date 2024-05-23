@@ -19,7 +19,7 @@ first example considers automatically detecting and annotating specific situatio
 overlays, to aid with the design of reward functions for autonomous driving. Finally, it includes an example of plotting vehicle signals on an annotated
 selection of data.
 
-Travia was tested with Python 3.8 on Windows and Ubuntu.
+Travia was tested with Python 3.12 on Windows and Ubuntu.
 
 ## Installation
 
@@ -175,9 +175,11 @@ All NGSim data is provided in feet. All values are converted to SI-units in `dat
 **Velocity in km/h in Pneuma data**
 The PNeuma data is provided with velocities in km/h, this is converted to m/s in `dataobjects/pneumadataset.py` (`read_pneuma_csv` function).
 
-**Background for ExiD dataset 00-18**
-The background image for ExiD datasets 00 to 18 does not seem to match the recorded data. This issue also exists in the visualizer provided with the ExiD 
-data. Because there is no fix possible without access to the raw data and specific location of the recording, this issue remains open. 
+**Background for ExiD dataset 00-18 in older version of the dataset**
+In older version of the dataset, the background image for ExiD datasets 00 to 18 does not match the recorded data. To solve this issue you can obtain the latest version of the dataset.
+
+**Motorcycles in the ExiD dataset**
+Since version 2.1, the ExiD dataset contains motorcycles. However, the motorcycles in the dataset have no dimensions (width and length are both 0.0). Therefore, TraViA uses the same estimated sizes as with the PNeuma data for all motorcycles in ExiD. 
 
 ### Where to place the data
 

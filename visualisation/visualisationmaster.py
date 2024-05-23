@@ -44,7 +44,7 @@ class VisualisationMaster(QtCore.QObject):
         self.path_to_video_file = ''
 
         self.main_timer = QtCore.QTimer()
-        self.main_timer.setInterval(self.dt.total_seconds() * 1e3)
+        self.main_timer.setInterval(int(self.dt.total_seconds() * 1e3))
         self.main_timer.setTimerType(QtCore.Qt.PreciseTimer)
         self.main_timer.setSingleShot(False)
         self.main_timer.timeout.connect(self._do_time_step_wrapper)

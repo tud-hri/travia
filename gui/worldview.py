@@ -76,7 +76,11 @@ class WorldView(QtWidgets.QGraphicsView):
             if dataset_id.data_source is DataSource.HIGHD:
                 meters_per_pixel = 4 * 0.10106  # from MATLAB example code
             else:
-                meters_per_pixel = 6 * dataset.ortho_px_to_meter  # scale parameter 6 comes from json file with visualiser parameters
+                meters_per_pixel = dataset.ortho_px_to_meter
+                v = dataset.dataset_version
+                if int(v[0]) < 2 or (int(v[0]) == 2 and int(v[1]) < 1):
+                    meters_per_pixel *= 6  # scale parameter 6 for earlier versions comes from json file with visualiser parameters
+
             path_to_file = os.path.join('data', dataset_id.map_sub_folder, dataset_id.map_image_name + '.png')
 
             pixmap = QtGui.QPixmap(path_to_file)
